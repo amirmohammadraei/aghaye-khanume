@@ -1,52 +1,33 @@
 body {
-background-image: url("img/background.png");
+    display: flex;
+    background-image: url('img/background.png');
+    background-size: cover;
+    align-items: center;
+    justify-content: center;
 }
 
-#outer {
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
+h1 {
+    text-align: center;
 }
 
-#inner {
-    width: 50%;
-    height: 70%;
-    top: 15%;
-    margin: 0 auto;
-    position: relative;
-    background:white;
-    border-radius: 50px;
+/* for container class (the box in the middle) we set gradient and percentage of h and w we set opacity to see image on the behind and border-radious for beautifulness */
+.main-container {
+    height: 65%;
+    width: 55%;
+    border-radius: 35px;
+    margin: auto;
+    display: grid;
+    background: white;
+    grid-template-columns: repeat(2, 1fr);
+}
+/* our container have 2 item in next to one another item and text should be at the center h and w is 100%*/
+.inside-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
-#innder-left {
-    width: 50%;
-    height: 80%;
-    top: 10%;
-    left: -20%;
-    margin: 0 auto;
-    position: relative;
-    border-radius: 50px;
-    border: 1px none;
-}
-
-.login-container {
-    position: absolute;
-    top:30%;
-    left: 50%;
-    transform: translate(-60%, -40%);
-}
-
-#fname {
-    width: 160px;
-    height: 30px;
-    border: 5px solid black;
-    border-width: 1.5px;
-}
-
-input[radio] {
-    height: 20px;
-    width: 20px;
-    vertical-align: middle;
+.nested-container-border {
+    border: solid;
 }

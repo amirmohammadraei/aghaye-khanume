@@ -1,36 +1,48 @@
-<!DOCTYPE html>
 <html>
+
     <head>
-        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="styles.css" />
+        <title>Aghaye - Khanume</title>
     </head>
+
     <body>
-        <div id=outer>
-            <div id=inner>
+            <div class="main-container">
+                <div class="inside-container">
+                    <form id="main-form">
 
-                <div id="innder-left">
-                    <h1 style="text-align: center;">Mr. or Ms.?</h1>
-                    <form action="" class="login-container">
-                        <label for="name">Name&nbsp;&nbsp;&nbsp;
-                            <input type="text" id="fname" name="fname" maxlength="255" required>
-                        </label>
-                        <br><br><br><br><br>
+                        <h1>Mr. or Ms.?</h1>
+                        <br><br><br><br>
 
-                        <div class="radio-buttons">
-                            <label for="gender1">
-                                <input type="radio" id="male-radio" name="gender" value="male"> Male
-                            </label>
-                            <br>
-                            <br>
-                            <label for="gender2">
-                                <input type="radio" id="female-radio" name="gender" value="female"> Female
-                            </label>
-                        </div>
+                        <label for="name">Name</label> &nbsp;&nbsp; <input type="text" id="name" name="name" required>
+                        <br><br><br><br>
+                        <label for="gender1"><input type="radio" id="male-gender" name="gender" value="male"> Male</label><br><br>
+                        <label for="gender2"><input type="radio" id="female-gender" name="gender" value="female" > Female</label>
+                        <br><br><br><br>
+                        
+                        <button type="submit" id="submit">Submit</button><br><br>
+                        <button type="submit" id="save">Save</button>
 
+                        <p id="Error" style="display: flex;font-weight: bold;justify-content: center;color: red;"></p>
                     </form>
                 </div>
 
-            </div>
-          </div>
+                <div class="inside-container">
+                    <div>
+                        <div class="nested-container">
+                            <h1>Prediction</h1>
+                            <p id="gender-status">----</p>
+                            <p id="gender-percentage">----</p>
+                        </div>
+                        <br><br><br><br><br><br>
+                        
+                        <div class="nested-container-border">
+                            <h1 style="font-size: 20px;">Saved Answer</h1>
+                            <p id="gender-saved" style="display: flex;justify-content: center;"></p>
+                        <button type="submit" id="remove_button">clear</button>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <script type="text/javascript" src="main.js"></script>
     </body>
 </html>
-

@@ -1,103 +1,116 @@
-//this function is for bouns part of project to handle error as a paragraph in webpage
-function err(message) {
-    var alert_text = document.querySelector('#Error');
-    alert_text.innerText = message;
-}
-//this function is for check input to dont have number,#-_*&%()@$ and ... 
-function check(name) {
-    var regex = /^[a-z A-Z]+$/;
-    return regex.test(name);
+// name must contains english chars and space with maximum length of 255 chars
+function name_validation(name) {
+    var sample_regex = /^[A-Za-z ]{1,255}$/;
+    return sample_regex.test(name);
 }
 
-//this function is for remove btn functionality and remove name from local storage if it exist
-document.getElementById('remove_button').onclick = function (e) {
-    var name = document.getElementById('name').value;
-    var gender_saved = document.querySelector('#gender-saved');
-    if (name.length > 1) {
-        var gender = localStorage.getItem(name);
-        if(gender){
-            localStorage.removeItem(name)
-            gender_saved.innerText = 'Nothing in storage'
-
-        } else{
-            err("This name didn't save in the local storage!")
-        }
-    } else{
-        err("you have not enter any name!")
-    }
+// sumbit button to manage input form and predict it's a male or female name
+document.getElementById('submit-btn').onclick = function (e) {
     e.preventDefault();
-};
 
-//this function is for submit button functionality and request and get response from api (js object was made)
-document.getElementById('submit').onclick = function (e) {
-    var form = document.getElementById('main-form');
-    var gender_status = document.querySelector('#gender-status');
-    
-    var gender_percentage = document.querySelector('#gender-percentage');
-    var gender_saved = document.querySelector('#gender-saved');
+    var input_form = document.getElementById('input-data');
+    var gender_status = document.querySelector('#predicted-gender');
+    var gender_percentage = document.querySelector('#predicted-percentage');
+    var saved_gender = document.querySelector('#saved-gender');
+    var read_data = new FormData(input_form);
+    var input_data = {};
 
-    var data = new FormData(form);
-    var items = {};
-    for (const entry of data) {
-        items[entry[0]] = entry[1];
+    for (const [key, value] of read_data) {
+        input_data[key] = value;
     }
-    gender_saved.innerText = localStorage.getItem(items['name']);
-    if (check(items['name'])) {
-        var xmlHttp;
-        xmlHttp = new XMLHttpRequest();
 
 
+    saved_gender.innerText = 'load from storage: ' + localStorage.getItem(input_data['name']);
+
+
+    if (name_validation(input_data['name'])) {
+        var xmlHttp = new XMLHttpRequest();
         xmlHttp.onreadystatechange = function () {
             if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
                 var respData = JSON.parse(xmlHttp.responseText) || {};
-
-                gender_status.innerText = respData['gender'];
-                gender_percentage.innerText = respData['probability'];
-            }
+                if (respData['gender'] == null){
+                    gender_status.innerText = '----';
+                    gender_percentage.innerText = '----';
+                    show_error_message('api is not able to predict gender');
+                } else {
+                    gender_status.innerText = respData['gender'];
+                    gender_percentage.innerText = respData['probability'];
+                }
+            } 
         };
 
-        xmlHttp.open(
-            'GET',
-            'https://api.genderize.io/?name=' +
-                items['name'].split(' ').join('%20'),
-            true
-        );
-
-        xmlHttp.send(null);
-    } else {
-        err(items['name'] + ' the api doesn\'t have this name!!!');
+        xmlHttp.open('GET', 'https://api.genderize.io/?name=' + input_data['name'], true);
+        xmlHttp.send();
+    } 
+    else {
+        if (input_data['name'].length == 0) {
+            show_error_message('Enter name!');
+        }
+        else {
+            show_error_message('please enter valid name!');
+        }   
     }
-
-    e.preventDefault();
 };
-//this function is for save button functionality and save result in local storage
-document.getElementById('save').onclick = function (e) {
-    var form = document.getElementById('main-form');
 
-    var gender_status = document.querySelector('#gender-status');
-    var gender_saved = document.querySelector('#gender-saved');
-    var data = new FormData(form);
-    var items = {};
-    for (const entry of data) {
-        items[entry[0]] = entry[1];
+// this function will save predicted answer for input name
+document.getElementById('save-btn').onclick = function (e) {
+    e.preventDefault();
+    
+    var input_form = document.getElementById('input-data');
+    var predicted_gender = document.querySelector('#predicted-gender');
+    var read_data = new FormData(input_form);
+    var input_data = {};
+
+    for (const [key, value] of read_data) {
+        input_data[key] = value;
     }
-    if (check(items['name'])) {
-        if (items['gender']) {
-            localStorage.setItem(items['name'], items['gender']);
-            gender_saved.innerText = items['gender'];
-        } else {
-            var gender_requested = gender_status.innerText;
-            gender_saved.innerText = gender_requested;
-            localStorage.setItem(items['name'] , gender_requested)
-            if (gender_requested.length == 0) {
-                err(
-                    'You did not choose a gender and you did not search any name either!!!'
-                );
+
+    if (name_validation(input_data['name'])) {
+        var saved_gender = document.querySelector('#saved-gender'); 
+        if (input_data['gender']) {
+            localStorage.setItem(input_data['name'], input_data['gender']);
+            saved_gender.innerText = 'new gender: ' + input_data['gender'];
+        } 
+        else {
+            var to_save_gender = predicted_gender.innerText;
+            saved_gender.innerText = to_save_gender;
+            if (to_save_gender == '----') {
+
+                saved_gender.innerText = 'data was in storage:' + localStorage.getItem(input_data['name']);
+                show_error_message('Enter gender or use prediction');
+
+            } else {
+                localStorage.setItem(input_data['name'], predicted_gender.innerText);
             }
         }
-    } else {
-        err(items['name'] + ' is not a valid name (Name should only include alphabet and space)!!!');
+    } 
+    else {
+        if (input_data['name'].length == 0) {
+            show_error_message('Enter name!');
+        }
+        else {
+            show_error_message('please enter valid name!');
+        }   
     }
-
-    e.preventDefault();
 };
+
+// here we manage how to remove predicted gender for specific name from local storage
+document.getElementById('remove-btn').onclick = function (e) {
+    e.preventDefault();
+    var user_input_name = document.getElementById('name').value;
+    var gender = localStorage.getItem(user_input_name);
+    if(gender){
+        localStorage.removeItem(user_input_name)
+        var saved_gender = document.querySelector('#saved-gender');
+        saved_gender.innerText = 'saved answer deleted!'
+    } 
+    else{
+        show_error_message("There is nothing to remove")
+    }
+};
+
+// this function is to handle errors in project
+function show_error_message(message) {
+    var error = document.querySelector('#show-error-message');
+    error.innerText = message;
+}

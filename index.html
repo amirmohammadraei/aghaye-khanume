@@ -8,21 +8,21 @@
     <body>
             <div class="main-container">
                 <div class="inside-container">
-                    <form id="main-form">
+                    <form id="input-data">
 
                         <h1>Mr. or Ms.?</h1>
                         <br><br><br><br>
 
                         <label for="name">Name</label> &nbsp;&nbsp; <input type="text" id="name" name="name" required>
                         <br><br><br><br>
-                        <label for="gender1"><input type="radio" id="male-gender" name="gender" value="male"> Male</label><br><br>
-                        <label for="gender2"><input type="radio" id="female-gender" name="gender" value="female" > Female</label>
+                        <label for="gender-male"><input type="radio" id="male-gender" name="gender" value="male"> Male</label><br><br>
+                        <label for="gender-female"><input type="radio" id="female-gender" name="gender" value="female" > Female</label>
                         <br><br><br><br>
                         
-                        <button type="submit" id="submit">Submit</button><br><br>
-                        <button type="submit" id="save">Save</button>
+                        <button type="submit" id="submit-btn">Submit</button><br><br>
+                        <button type="submit" id="save-btn">Save</button>
 
-                        <p id="Error" style="display: flex;font-weight: bold;justify-content: center;color: red;"></p>
+                        <p id="show-error-message" style="color: red;"></p>
                     </form>
                 </div>
 
@@ -30,15 +30,15 @@
                     <div>
                         <div class="nested-container">
                             <h1>Prediction</h1>
-                            <p id="gender-status">----</p>
-                            <p id="gender-percentage">----</p>
+                            <p id="predicted-gender">----</p>
+                            <p id="predicted-percentage">----</p>
                         </div>
                         <br><br><br><br><br><br>
                         
                         <div class="nested-container-border">
                             <h1 style="font-size: 20px;">Saved Answer</h1>
-                            <p id="gender-saved" style="display: flex;justify-content: center;"></p>
-                        <button type="submit" id="remove_button">clear</button>
+                            <p id="saved-gender" style="display: flex;justify-content: center; color: green;"></p>
+                            <button type="submit" id="remove-btn">clear</button>
                         </div>
                     </div>
                 </div>

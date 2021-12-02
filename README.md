@@ -1,2 +1,2 @@
-# aghay-khanume
+# aghaye-khanume
 github page: https://amirmohammadraei.github.io/aghaye-khanume/

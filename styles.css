@@ -1,3 +1,4 @@
+/* here we maanged the body of our webpage and add image and style in that */
 body {
     display: flex;
     background-image: url('img/background.png');
@@ -5,12 +6,12 @@ body {
     align-items: center;
     justify-content: center;
 }
-
+/* the style for h1 tag which we put them in center of boarder */
 h1 {
     text-align: center;
 }
 
-/* for container class (the box in the middle) we set gradient and percentage of h and w we set opacity to see image on the behind and border-radious for beautifulness */
+/* here we handle the style of main container which is a grid */
 .main-container {
     height: 65%;
     width: 55%;
@@ -20,7 +21,8 @@ h1 {
     background: white;
     grid-template-columns: repeat(2, 1fr);
 }
-/* our container have 2 item in next to one another item and text should be at the center h and w is 100%*/
+
+/* this style will manage the css of inner containers */
 .inside-container {
     height: 100%;
     width: 100%;
@@ -28,6 +30,7 @@ h1 {
     justify-content: center;
 }
 
+/* in project description, was mentioned that there is a boarder in right bottom of grid and this stylw will handle that */
 .nested-container-border {
     border: solid;
 }
